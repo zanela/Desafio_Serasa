@@ -1,0 +1,37 @@
+-Consulta: alunos da disciplina de Cálculo do professor João
+
+SELECT a.nome
+FROM Alunos a
+JOIN Matriculas m ON a.id = m.id_aluno
+JOIN Disciplinas d ON m.id_disciplina = d.id
+JOIN Professores p ON d.id_professor = p.id
+WHERE d.nome = 'Cálculo' AND p.nome = 'João';
+
+
+-Consulta: quantidade de alunos por disciplina
+
+SELECT d.nome, COUNT(m.id_aluno) AS quantidade_alunos
+FROM Disciplinas d
+JOIN Matriculas m ON d.id = m.id_disciplina
+GROUP BY d.nome;
+
+-Consulta: disciplinas que todos os professores lecionam
+
+SELECT d.nome
+FROM Disciplinas d
+JOIN Professores p ON d.id_professor = p.id
+GROUP BY d.nome
+HAVING COUNT(DISTINCT p.id) = (SELECT COUNT(*) FROM Professores);
+
+-Consulta: total de professores
+
+SELECT COUNT(*) AS total_professores FROM Professores;
+
+
+-Consulta: alunos que cursaram disciplinas entre 2000 e 2020
+
+SELECT DISTINCT a.nome
+FROM Alunos a
+JOIN Matriculas m ON a.id = m.id_aluno
+JOIN Disciplinas d ON m.id_disciplina = d.id
+WHERE m.ano BETWEEN 2000 AND 2020;
